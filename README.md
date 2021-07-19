@@ -1,8 +1,11 @@
 # Tank Survivor
 
-Tank Survivor is a static side view. While moving around the map be sure
-to avoid enemy fire! Watch for wood crates for a random surprise - it could be
-an increase or decrease of life or something entirely different!
+Tank Survivor is a static side view.
+you should be survived from carpet bombing at least 60 sec.
+
+## mocks-up
+Please refer to ReadMe.docx
+
 
 ## library
 ```
@@ -12,13 +15,11 @@ python3 -m pip install arcade
 (These are python standard libraries)
 import random 
 import time
-
-
 ```
 
 If requried libraries are installed, start the tank-survivor.py in root folder.
 
-
+## How to execute
 Case: Cmd or Terminal
 ```
 python tank-survivor.py
