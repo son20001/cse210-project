@@ -38,7 +38,7 @@ class ResultView(arcade.View):
             text = "Captain Sherman call a bombing mission directly on his \n\nposition to avoid capture and to defense the fort.\n\n After the bombing, He was rescued safely \n\nand awarded the Distinguished Service Cross."
             arcade.draw_text(text, text_x - 275, text_y -100, arcade.color.BLACK_OLIVE, 30, width=constants.SCREEN_WIDTH - 100, align= "center")
         else:
-            text = "Captain Sherman call a bombing mission directly on his \n\nposition to avoid capture and to defense the fort.\n\n After the bombing, He died in battle, but protected the fortress \n\nand awarded the Medal of Honor."
+            text = "Captain Sherman call a bombing mission directly on his \n\nposition to avoid capture and to defense the fort.\n\n After the bombing, He died in battle, but protected \n\nthe fortress and awarded the Medal of Honor."
             arcade.draw_text(text, text_x - 275, text_y -100, arcade.color.BLACK_OLIVE, 30, width=constants.SCREEN_WIDTH - 100, align= "center")
 
         text = "Press any key to restart"
