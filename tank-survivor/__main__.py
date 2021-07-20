@@ -24,7 +24,7 @@ class Window(arcade.Window):
             Reed Hunsaker
             Isabel Aranguren
         """
-        super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.TITLE)
+        super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
 
         self.volume = constants.VOLUME
 

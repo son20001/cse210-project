@@ -7,18 +7,9 @@ from game import constants
 SCALING = 1.0
 
 # Classes
-
-class TankSurvivor(arcade.Window):
-    """Space Shooter side scroller game
-    Player starts on the left, enemies appear on the right
-    Player can move anywhere, but not off screen
-    Enemies fly to the left at variable speed
-    Collisions end the game
-    """
-
-    def __init__(self, width: int, height: int, title: str):
-        """Initialize the game"""
-        super().__init__(width, height, title)
+class GameView(arcade.View):
+    def __init__(self):
+        super().__init__()
 
         # Setup the empty sprite lists
         self.enemies_list = arcade.SpriteList()
@@ -26,45 +17,34 @@ class TankSurvivor(arcade.Window):
         self.clouds_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
 
-    def setup(self):
-        """Get the game ready to play"""
+        self.texture = arcade.load_texture(constants.GAME_BACKGROUND)
+        self.explosion_sound = arcade.load_sound(constants.EXPLOSION)
+        self.drop_sound = arcade.load_sound(constants.DROP)
 
-        # Set the background color
+    def setup(self):
         arcade.set_background_color(arcade.color.YELLOW_GREEN)
 
-        # Setup the player
         self.player = arcade.Sprite(constants.PLAYER_IMAGE, SCALING)
         self.player.center_y = 0
         self.player.left = 10
         self.all_sprites.append(self.player)
 
-        # Spawn a new enemy every second
         arcade.schedule(self.add_enemy, 1.0)
 
-
-        # Unpause everything and reset the collision timer
         self.paused = False
         self.collided = False
         self.collision_timer = 0.0
 
     def add_enemy(self, delta_time: float):
-        """Adds a new enemy to the screen
-
-        Arguments:
-            delta_time {float} -- How much time has passed since the last call
-        """
-
-        # First, create the new enemy sprite
         enemy = arcade.Sprite(constants.BOMB_IMAGE, 0.5)
 
-        # Set its position to a random height and off screen right
-        enemy.left = random.randint(10, self.width - 10)
-        enemy.top = random.randint(self.height - 10, self.height)
+        enemy.left = random.randint(10, constants.SCREEN_WIDTH - 10)
+        enemy.top = constants.SCREEN_HEIGHT
 
-        # Set its speed to a random speed heading left
         enemy.velocity = (0, random.randint(-200, -50))
 
-        # Add it to the enemies list
+        arcade.play_sound(self.drop_sound, 0.4)
+
         self.enemies_list.append(enemy)
         self.all_sprites.append(enemy)
     
@@ -77,24 +57,12 @@ class TankSurvivor(arcade.Window):
         explosion.left = center_x
         explosion.bottom = 0
 
-        # Set its speed to a random speed heading left
-        # explosion.velocity = (0, 0)
+        arcade.play_sound(self.explosion_sound, 0.4)
 
-        # Add it to the enemies list
         self.explosion_list.append(explosion)
         self.all_sprites.append(explosion)
 
     def on_key_press(self, symbol: int, modifiers: int):
-        """Handle user keyboard input
-        Q: Quit the game
-        P: Pause the game
-        I/J/K/L: Move Up, Left, Down, Right
-        Arrows: Move Up, Left, Down, Right
-
-        Arguments:
-            symbol {int} -- Which key was pressed
-            modifiers {int} -- Which modifiers were pressed
-        """
         if symbol == arcade.key.ESCAPE:
             # Quit immediately
             arcade.close_window()
@@ -109,13 +77,6 @@ class TankSurvivor(arcade.Window):
             self.player.change_x = 250
 
     def on_key_release(self, symbol: int, modifiers: int):
-        """Undo movement vectors when movement keys are released
-
-        Arguments:
-            symbol {int} -- Which key was pressed
-            modifiers {int} -- Which modifiers were pressed
-        """
-
         if (
             symbol == arcade.key.J
             or symbol == arcade.key.L
@@ -169,12 +130,13 @@ class TankSurvivor(arcade.Window):
         """Draw all game objects"""
 
         arcade.start_render()
+        self.texture.draw_sized(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         self.all_sprites.draw()
 
 
 if __name__ == "game_view":
     # Create a new Space Shooter window
-    space_game = TankSurvivor(
+    space_game = GameView(
         int(constants.SCREEN_WIDTH * SCALING), int(constants.SCREEN_HEIGHT * SCALING), constants.SCREEN_TITLE
     )
     # Setup to play
