@@ -35,5 +35,11 @@ class ResultView(arcade.View):
         arcade.draw_text(text, text_x, text_y + 200, arcade.color.BLACK_OLIVE, 30)
         
         if self.score > 60:
-            text = "Captain Sherman call a bombing mission directly on his position to avoid capture and defense the fort."
-        arcade.draw_text(text, text_x, text_y + 200, arcade.color.BLACK_OLIVE, 30)
+            text = "Captain Sherman call a bombing mission directly on his \n\nposition to avoid capture and to defense the fort.\n\n After the bombing, He was rescued safely \n\nand awarded the Distinguished Service Cross."
+            arcade.draw_text(text, text_x - 275, text_y -100, arcade.color.BLACK_OLIVE, 30, width=constants.SCREEN_WIDTH - 100, align= "center")
+        else:
+            text = "Captain Sherman call a bombing mission directly on his \n\nposition to avoid capture and to defense the fort.\n\n After the bombing, He died in battle, but protected the fortress \n\nand awarded the Medal of Honor."
+            arcade.draw_text(text, text_x - 275, text_y -100, arcade.color.BLACK_OLIVE, 30, width=constants.SCREEN_WIDTH - 100, align= "center")
+
+        text = "Press any key to restart"
+        arcade.draw_text(text,text_x - 280,text_y-250, arcade.color.BLACK_OLIVE, 30, width=constants.SCREEN_WIDTH - 100, align= "center")
