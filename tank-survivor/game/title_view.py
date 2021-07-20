@@ -31,6 +31,10 @@ class TitleView(arcade.View):
 
     def on_hide_view(self):
         self.ui_manager.unregister_handlers()
+    
+    def asdf(self):
+        app = TitleView()
+        return app
             
 
 

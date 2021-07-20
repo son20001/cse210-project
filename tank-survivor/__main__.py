@@ -5,25 +5,9 @@ from game.game_view import GameView
 from game.score import Score
 
 class Window(arcade.Window):
-    """Open and control main window
-    Stereotype:
-        Controller
-    Attributes: 
-        master_volume(file_path): file path for volume
-        score (Score): initalize the score class
-        background_music (arcade.Sound): initalize background music in arcade.Sound
-    Contributors:
-            Isabel Aranguren
-            Reed Hunsaker
-    """
+
     def __init__(self):
-        """Initalize the Window class
-        Args:
-            self (Window): an instance of Window
-        Contributors:
-            Reed Hunsaker
-            Isabel Aranguren
-        """
+
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
 
         self.volume = constants.VOLUME

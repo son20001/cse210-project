@@ -66,19 +66,13 @@ root                           ------(project root folder)
 >>>
 >>> title.py
 >>>
->>> how_view.py
->>>
->>> story_view.py
->>>
 >>> game_view.py
 >>>
 >>> result_view.py
 >>>
->>> bomb.py
->>>
 >>> score.py
 >>>
->>> player.py   
+>>> button.py
 >> __init__.py              (python package file)
 >>
 >> __main__.py              (entry point for program)
