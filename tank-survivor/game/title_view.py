@@ -19,7 +19,7 @@ class TitleView(arcade.View):
         play_button = Button(GameView(), self.window, y = (constants.SCREEN_HEIGHT / 2) - 20, normal_texture= start_texture)
 
         instruct_texture = arcade.load_texture(constants.INSTRUCTION_BUTTON)
-        instruct_button = Button(HowToPlayView(), self.window, y = (constants.SCREEN_HEIGHT / 2) - 100, normal_texture = instruct_texture)
+        instruct_button = Button(HowToPlayView(), self.window, y = (constants.SCREEN_HEIGHT / 2) - 150, normal_texture = instruct_texture)
 
         self.ui_manager.add_ui_element(play_button)
         self.ui_manager.add_ui_element(instruct_button)

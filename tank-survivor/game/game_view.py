@@ -51,13 +51,13 @@ class GameView(arcade.View):
     def explosion(self, center_x):
 
         # First, create the new enemy sprite
-        explosion = arcade.Sprite(constants.EXPLOSION_IMAGE, 0.1)
+        explosion = arcade.Sprite(constants.EXPLOSION_IMAGE, 0.15)
 
         # Set its position to a random height and off screen right
-        explosion.left = center_x
+        explosion.left = center_x - 50
         explosion.bottom = 0
 
-        arcade.play_sound(self.explosion_sound, 0.4)
+        arcade.play_sound(self.explosion_sound, 0.8)
 
         self.explosion_list.append(explosion)
         self.all_sprites.append(explosion)

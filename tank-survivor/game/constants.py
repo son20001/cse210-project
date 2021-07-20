@@ -5,9 +5,9 @@ SCREEN_TITLE = "Tank survivor"
 SCALING = 2.0
 
 #Sprite
-PLAYER_IMAGE = "game/assets/jet.png"
-EXPLOSION_IMAGE = "game/assets/exp.png"
-BOMB_IMAGE = "game/assets/missile.png"
+PLAYER_IMAGE = "game/assets/tank.png"
+EXPLOSION_IMAGE = "game/assets/explosion.png"
+BOMB_IMAGE = "game/assets/bomb.png"
 
 #Sound
 BGM = "game/assets/jade.mp3"
