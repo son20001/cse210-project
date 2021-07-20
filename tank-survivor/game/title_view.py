@@ -1,7 +1,8 @@
 import arcade
 from game import constants
 from game.game_view import GameView
-from arcade.gui import UIManager, UIImageButton
+from arcade.gui import UIManager
+from game.button import Button
 
 class TitleView(arcade.View):
     def __init__(self):
@@ -31,18 +32,7 @@ class TitleView(arcade.View):
     def on_hide_view(self):
         self.ui_manager.unregister_handlers()
             
-class Button(UIImageButton):
-    def __init__(self, view, game, x = constants.SCREEN_WIDTH / 2, y = constants.SCREEN_HEIGHT / 2,  text = "", normal_texture = None):
-        super().__init__(center_x= x, center_y= y,
-        text = text, normal_texture = normal_texture)
-        self.view = view
-        self.center_x = x
-        self.center_y = y
-        self.window = game
 
-    def on_click(self):
-        self.view.setup()
-        self.window.show_view(self.view)
 
 class HowToPlayView(arcade.View):
     def __init__(self):

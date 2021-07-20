@@ -2,6 +2,8 @@
 import arcade
 import random
 from game import constants
+from game.score import Score
+from game.result_view import ResultView
 
 # Constants
 SCALING = 1.0
@@ -17,6 +19,9 @@ class GameView(arcade.View):
         self.clouds_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
 
+        self.score = Score()
+        self.text_angle = 0
+
         self.texture = arcade.load_texture(constants.GAME_BACKGROUND)
         self.explosion_sound = arcade.load_sound(constants.EXPLOSION)
         self.drop_sound = arcade.load_sound(constants.DROP)
@@ -29,11 +34,21 @@ class GameView(arcade.View):
         self.player.left = 10
         self.all_sprites.append(self.player)
 
-        arcade.schedule(self.add_enemy, 1.0)
+        score = self.score.get_score()
+        arcade.schedule(self.add_enemy, 1.0 - score/120)
+        arcade.schedule(self.clear_exp, 0.5)
+        arcade.schedule(self.score.add_score,0.1)
 
         self.paused = False
         self.collided = False
         self.collision_timer = 0.0
+
+    def score_update(self, delta_time):
+        self.score.add_score(delta_time)
+
+    def clear_exp(self, delta_time):
+        for sprite in self.explosion_list:
+            sprite.remove_from_sprite_lists()
 
     def add_enemy(self, delta_time: float):
         enemy = arcade.Sprite(constants.BOMB_IMAGE, 0.5)
@@ -41,7 +56,8 @@ class GameView(arcade.View):
         enemy.left = random.randint(10, constants.SCREEN_WIDTH - 10)
         enemy.top = constants.SCREEN_HEIGHT
 
-        enemy.velocity = (0, random.randint(-200, -50))
+        score = self.score.get_score()
+        enemy.velocity = (0, random.randint(int(-200 - score * 10), int(-50 - score * 10)))
 
         arcade.play_sound(self.drop_sound, 0.4)
 
@@ -77,12 +93,7 @@ class GameView(arcade.View):
             self.player.change_x = 250
 
     def on_key_release(self, symbol: int, modifiers: int):
-        if (
-            symbol == arcade.key.J
-            or symbol == arcade.key.L
-            or symbol == arcade.key.LEFT
-            or symbol == arcade.key.RIGHT
-        ):
+        if (symbol == arcade.key.LEFT or symbol == arcade.key.RIGHT):
             self.player.change_x = 0
 
     def on_update(self, delta_time: float):
@@ -91,8 +102,8 @@ class GameView(arcade.View):
             self.collision_timer += delta_time
             # If we've paused for two seconds, we can quit
             if self.collision_timer > 2.0:
-                arcade.close_window()
-            # Stop updating things as well
+                self.paused = not self.paused
+                self.show_result()
             return
 
         # If we're paused, don't update anything
@@ -103,7 +114,6 @@ class GameView(arcade.View):
         if self.player.collides_with_list(self.enemies_list) or self.player.collides_with_list(self.explosion_list):
             self.collided = True
             self.collision_timer = 0.0
-            arcade.play_sound(self.collision_sound)
 
         # Update everything
         for sprite in self.all_sprites:
@@ -125,6 +135,13 @@ class GameView(arcade.View):
             self.player.bottom = 0
         if self.player.left < 0:
             self.player.left = 0
+        
+    def show_result(self):
+        result = ResultView(self.score)
+        result.setup()
+        self.on_hide_view
+        self.window.show_view(result)
+        
 
     def on_draw(self):
         """Draw all game objects"""
@@ -132,6 +149,8 @@ class GameView(arcade.View):
         arcade.start_render()
         self.texture.draw_sized(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         self.all_sprites.draw()
+        
+        arcade.draw_text(self.score.display_text(), 0, constants.SCREEN_HEIGHT - 20, arcade.color.BLACK, 12)
 
 
 if __name__ == "game_view":

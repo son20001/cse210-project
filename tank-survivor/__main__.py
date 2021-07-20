@@ -37,6 +37,9 @@ class Window(arcade.Window):
         gameview = GameView()
         return gameview
     
+    def restart(self):
+        titleView = TitleView()
+        return titleView
 
 def main():
     window = Window()

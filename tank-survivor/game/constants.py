@@ -14,11 +14,13 @@ BGM = "game/assets/jade.mp3"
 VOLUME = 0.5
 DROP = "game/assets/drop.wav"
 EXPLOSION = "game/assets/explosion.mp3"
+PEN = "game/assets/pen.mp3"
 
 #background
 TITLE_BACKGROUND = "game/assets/title-background.png"
 GAME_BACKGROUND = "game/assets/game-background.png"
 INSTRUCTION_BACKGROUND = "game/assets/instruction-background.png"
+RESULT_BACKGROUND = "game/assets/result-background.png"
 
 #Button
 START_BUTTON = "game/assets/startButton.png"
