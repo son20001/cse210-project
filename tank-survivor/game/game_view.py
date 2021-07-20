@@ -21,6 +21,8 @@ class GameView(arcade.View):
 
         self.score = Score()
         self.text_angle = 0
+        
+        self.enemy_timer = 0
 
         self.texture = arcade.load_texture(constants.GAME_BACKGROUND)
         self.explosion_sound = arcade.load_sound(constants.EXPLOSION)
@@ -35,7 +37,7 @@ class GameView(arcade.View):
         self.all_sprites.append(self.player)
 
         score = self.score.get_score()
-        arcade.schedule(self.add_enemy, 1.0 - score/120)
+        # arcade.schedule(self.add_enemy, 1.0 - score/120)
         arcade.schedule(self.clear_exp, 0.5)
         arcade.schedule(self.score.add_score,0.1)
 
@@ -50,14 +52,14 @@ class GameView(arcade.View):
         for sprite in self.explosion_list:
             sprite.remove_from_sprite_lists()
 
-    def add_enemy(self, delta_time: float):
+    def add_enemy(self):
         enemy = arcade.Sprite(constants.BOMB_IMAGE, 0.5)
 
         enemy.left = random.randint(10, constants.SCREEN_WIDTH - 10)
         enemy.top = constants.SCREEN_HEIGHT
 
         score = self.score.get_score()
-        enemy.velocity = (0, random.randint(int(-200 - score * 10), int(-50 - score * 10)))
+        enemy.velocity = (0, random.randint(int(-200 - score * 10), -50))
 
         arcade.play_sound(self.drop_sound, 0.4)
 
@@ -79,9 +81,7 @@ class GameView(arcade.View):
         self.all_sprites.append(explosion)
 
     def on_key_press(self, symbol: int, modifiers: int):
-        if symbol == arcade.key.ESCAPE:
-            # Quit immediately
-            arcade.close_window()
+
 
         if symbol == arcade.key.P:
             self.paused = not self.paused
@@ -97,6 +97,7 @@ class GameView(arcade.View):
             self.player.change_x = 0
 
     def on_update(self, delta_time: float):
+
         # Did we collide with something earlier? If so, update our timer
         if self.collided:
             self.collision_timer += delta_time
@@ -109,6 +110,11 @@ class GameView(arcade.View):
         # If we're paused, don't update anything
         if self.paused:
             return
+
+        self.enemy_timer += delta_time
+        if self.enemy_timer > 1 - self.score.get_score()/120:
+            self.add_enemy()
+            self.enemy_timer = 0
 
         # Did we hit anything? If so, end the game
         if self.player.collides_with_list(self.enemies_list) or self.player.collides_with_list(self.explosion_list):
@@ -141,27 +147,13 @@ class GameView(arcade.View):
         result.setup()
         self.on_hide_view
         self.window.show_view(result)
-        
 
     def on_draw(self):
-        """Draw all game objects"""
-
         arcade.start_render()
         self.texture.draw_sized(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         self.all_sprites.draw()
         
         arcade.draw_text(self.score.display_text(), 0, constants.SCREEN_HEIGHT - 20, arcade.color.BLACK, 12)
-
-
-if __name__ == "game_view":
-    # Create a new Space Shooter window
-    space_game = GameView(
-        int(constants.SCREEN_WIDTH * SCALING), int(constants.SCREEN_HEIGHT * SCALING), constants.SCREEN_TITLE
-    )
-    # Setup to play
-    space_game.setup()
-    # Run the game
-    arcade.run()
 
 
 
